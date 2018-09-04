@@ -164,11 +164,12 @@ INSERT INTO `computer` (`id`, `libelle`, `place`, `description`, `creation_date`
 -- Structure de la table `portable`
 --
 
-CREATE TABLE `laptop` (
+CREATE TABLE `portable` (
   `id` int(11) NOT NULL,
   `libelle` varchar(100) NOT NULL,
   `libellecourt` varchar(30) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
+  identifiant varchar(30) DEFAULT NULL,
   `marque` varchar(100) NOT NULL,
   `screen` int(11) NOT NULL,
   `cpu` varchar(50) NOT NULL,
@@ -176,14 +177,18 @@ CREATE TABLE `laptop` (
   `hdd1` int(11) NOT NULL,
   `hdd2` int(11) DEFAULT '0',
   `cdrom` int(11) DEFAULT '1',
-  `user_login` varchar(50) DEFAULT NULL
+  `user_login` varchar(50) DEFAULT NULL,
+  date_emprunt datetime DEFAULT NULL,
+  date_retour datetime DEFAULT NULL,
+  valider_par varchar(50) DEFAULT NULL,
+  retour_par varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `portable`
 --
 
-INSERT INTO `laptop` (`id`, `libelle`, `libellecourt`, `description`, `marque`, `screen`, `cpu`, `memory`, `hdd1`, `hdd2`, `cdrom`, `user_login`) VALUES
+INSERT INTO `portable` (`id`, `libelle`, `libellecourt`, `description`, `marque`, `screen`, `cpu`, `memory`, `hdd1`, `hdd2`, `cdrom`, `user_login`) VALUES
 (1, 'ASUS K750L', 'ASUS K750L', 'ASUS K750L 17 pouces', 'ASUS', 17, 'Intel Core i7', 8, 1536, 0, 1, NULL),
 (2, 'ASUS P2520LA-XO0456T', 'ASUS P2520LA-XO0456T', 'ASUS P2520LA-XO0456T', 'ASUS', 15, 'Intel Core i3', 4, 1024, 0, 1, NULL),
 (3, 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI', 15, 'Intel Core i3', 4, 500, 0, 1, NULL),
@@ -284,7 +289,7 @@ ALTER TABLE `computer`
 --
 -- Index pour la table `portable`
 --
-ALTER TABLE `laptop`
+ALTER TABLE `portable`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -323,7 +328,7 @@ ALTER TABLE `computer`
 --
 -- AUTO_INCREMENT pour la table `portable`
 --
-ALTER TABLE `laptop`
+ALTER TABLE `portable`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT pour la table `subcategory`

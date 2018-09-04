@@ -18,6 +18,7 @@ public class Portable {
   private String description;
   private String identifiant;
   private String marque;
+  private String couleur;
   private long screen;
   private String cpu;
   private long memory;
@@ -74,6 +75,9 @@ public class Portable {
   public void setMarque(String marque) {
     this.marque = marque;
   }
+
+  public String getCouleur() { return couleur; }
+  public void setCouleur(String couleur) { this.couleur = couleur; }
 
   public long getScreen() {
     return screen;

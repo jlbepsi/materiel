@@ -1,0 +1,53 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.epsi.montpellier'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+bootJar {
+    baseName = 'materiel'
+    version =  '0.1.0'
+}
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile('org.springframework.boot:spring-boot-starter-security')
+
+
+    // JPA Data (We are going to use Repositories, command, Hibernate, etc...)
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // JAXB Support
+    compile("javax.xml.bind:jaxb-api")
+    //:2.3.0'
+
+    // Use MySQL Connector-J
+    compile 'mysql:mysql-connector-java'
+
+    // JWT librairies
+    compile ('io.jsonwebtoken:jjwt-api:0.10.1')
+    runtime ('io.jsonwebtoken:jjwt-impl:0.10.2',
+            'io.jsonwebtoken:jjwt-jackson:0.10.2')
+
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

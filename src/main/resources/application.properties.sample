@@ -1,0 +1,7 @@
+spring.jpa.hibernate.ddl-auto=none
+spring.datasource.url=jdbc:mysql://localhost:3306/gestionmateriel?useSSL=false
+spring.datasource.username=<utilisateur>
+spring.datasource.password=<mot de passe>
+
+
+jwt.token.secret=<le secret utilisé par ws-usermanagement>
