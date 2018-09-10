@@ -41,7 +41,7 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
         // Assume we have only one Authorization header value
         final Optional<String> token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION));
 
-        if(token.isPresent() && token.get().startsWith(BEARER)) {
+         if(token.isPresent() && token.get().startsWith(BEARER)) {
 
             String bearerToken = token.get().substring(BEARER.length()+1);
             String message = null;
