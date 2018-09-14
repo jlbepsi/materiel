@@ -28,6 +28,8 @@ public class Computer {
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "boitier") private Component boitier;
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "cartemere") private Component cartemere;
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "cpu") private Component cpu;
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "ram1") private Component ram1;
@@ -120,6 +122,14 @@ public class Computer {
   }
   public void setBoitier(Component boitier) {
     this.boitier = boitier;
+  }
+
+
+  public Component getCartemere() {
+    return cartemere;
+  }
+  public void setCartemere(Component cartemere) {
+    this.cartemere = cartemere;
   }
 
   public Component getCpu() {

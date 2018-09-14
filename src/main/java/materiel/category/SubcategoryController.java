@@ -1,5 +1,6 @@
 package materiel.category;
 
+import materiel.GenericResponse;
 import materiel.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +74,6 @@ public class SubcategoryController {
                 .orElseThrow(() -> new ResourceNotFoundException("Subcategory", "id", subCategoryId));
 
         subCategoryRepository.delete(category);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new GenericResponse(true, "Suppression effectuée"));
     }
 }

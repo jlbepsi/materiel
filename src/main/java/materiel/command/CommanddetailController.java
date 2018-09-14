@@ -1,5 +1,6 @@
 package materiel.command;
 
+import materiel.GenericResponse;
 import materiel.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -83,6 +84,6 @@ public class CommanddetailController {
                 .orElseThrow(() -> new ResourceNotFoundException("Commanddetail", "cmdId-componentId", "" + cmdId + "-" + componentId));
 
         commanddetailRepository.delete(cmdDetail);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new GenericResponse(true, "Suppression effectuée"));
     }
 }

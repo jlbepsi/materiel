@@ -1,6 +1,7 @@
 package materiel.component;
 
 import materiel.Application;
+import materiel.GenericResponse;
 import materiel.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,6 @@ public class ComponentController {
                 .orElseThrow(() -> new ResourceNotFoundException("Component", "id", itemId));
 
         componentRepository.delete(component);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new GenericResponse(true, "Suppression effectuée"));
     }
 }

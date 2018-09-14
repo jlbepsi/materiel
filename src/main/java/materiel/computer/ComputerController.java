@@ -1,6 +1,7 @@
 package materiel.computer;
 
 import materiel.Application;
+import materiel.GenericResponse;
 import materiel.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,6 +80,6 @@ public class ComputerController {
                 .orElseThrow(() -> new ResourceNotFoundException("Computer", "id", itemId));
 
         computerRepository.delete(item);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(new GenericResponse(true, "Suppression effectuée"));
     }
 }

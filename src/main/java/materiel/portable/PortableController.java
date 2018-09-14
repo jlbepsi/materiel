@@ -1,5 +1,6 @@
 package materiel.portable;
 
+import materiel.GenericResponse;
 import materiel.ResourceNotFoundException;
 import materiel.emprunt.User;
 import materiel.emprunt.UserRepository;
@@ -58,9 +59,10 @@ public class PortableController {
         Portable portable = portableRepository.findById(portableId)
                 .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
 
-        portable.setLibelle(portableDetails.getLibelle());
+        // Pour être sûr
+        portableDetails.setId(portable.getId());
 
-        return portableRepository.save(portable);
+        return portableRepository.save(portableDetails);
     }
 
     // Delete a Portable
@@ -72,7 +74,8 @@ public class PortableController {
                 .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
 
         portableRepository.delete(portable);
-        return  ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body(new GenericResponse(true, "Suppression effectuée"));
     }
 
     // Emprunter un Portable
