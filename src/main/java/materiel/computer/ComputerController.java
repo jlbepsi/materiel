@@ -65,10 +65,9 @@ public class ComputerController {
         Computer item = computerRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Computer", "id", itemId));
 
-        item.setLibelle(itemDetails.getLibelle());
-        item.setPlace(itemDetails.getPlace());
-
-        return computerRepository.save(item);
+        // Pour être sûr
+        itemDetails.setId(item.getId());
+        return computerRepository.save(itemDetails);
     }
 
     // Delete a Computer

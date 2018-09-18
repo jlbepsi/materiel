@@ -60,10 +60,14 @@ public class ComponentController {
         Component component = componentRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Component", "id", itemId));
 
-        component.setLibelle(componentDetails.getLibelle());
+        // Pour être sûr
+        componentDetails.setId(component.getId());
+        return componentRepository.save(componentDetails);
+
+        /*component.setLibelle(componentDetails.getLibelle());
         component.setQuantitystock(componentDetails.getQuantitystock());
 
-        return componentRepository.save(component);
+        return componentRepository.save(component);*/
     }
 
     // Delete a Component
