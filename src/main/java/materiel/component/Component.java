@@ -16,7 +16,7 @@ public class Component {
     private int quantitystock;
     private int quantityused;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "subcategory_id") private Subcategory subcategory;
 
     public long getId() {

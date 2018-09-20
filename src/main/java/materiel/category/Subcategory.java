@@ -13,7 +13,7 @@ public class Subcategory {
     private String libelle;
 
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id") private Category category;
 
     public Integer getId() {

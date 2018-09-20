@@ -60,14 +60,14 @@ public class ComputerController {
     // Update a Computer
     @PutMapping("/computers/{id}")
     public @ResponseBody Computer updateComputer(@PathVariable(value = "id") long itemId,
-                                                 @Valid @RequestBody Computer itemDetails) {
+                                                 @Valid @RequestBody Computer computerDetails) {
 
-        Computer item = computerRepository.findById(itemId)
+        Computer computer = computerRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Computer", "id", itemId));
 
         // Pour être sûr
-        itemDetails.setId(item.getId());
-        return computerRepository.save(itemDetails);
+        computerDetails.setId(computer.getId());
+        return computerRepository.save(computerDetails);
     }
 
     // Delete a Computer

@@ -31,7 +31,7 @@ public class Portable {
   private String validerPar;
   private String retourPar;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "user_login") private User emprunteur;
 
   public long getId() {
