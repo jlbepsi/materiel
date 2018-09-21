@@ -48,10 +48,6 @@ public class Computer {
   @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "hdd4") private Component hdd4;
   @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinColumn(name = "hdd5") private Component hdd5;
-  @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-  @JoinColumn(name = "hdd6") private Component hdd6;
-  @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "networkCard1") private Component networkCard1;
   @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "networkCard2") private Component networkCard2;
@@ -193,20 +189,6 @@ public class Computer {
   }
   public void setHdd4(Component hdd4) {
     this.hdd4 = hdd4;
-  }
-
-  public Component getHdd5() {
-    return hdd5;
-  }
-  public void setHdd5(Component hdd5) {
-    this.hdd5 = hdd5;
-  }
-
-  public Component getHdd6() {
-    return hdd6;
-  }
-  public void setHdd6(Component hdd6) {
-    this.hdd6 = hdd6;
   }
 
   public Component getNetworkCard1() {

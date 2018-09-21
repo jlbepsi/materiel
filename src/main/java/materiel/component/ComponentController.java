@@ -42,7 +42,7 @@ public class ComponentController {
     }
 
     // Add a new Component
-        @PostMapping(path="/components") // Map ONLY POST Requests
+    @PostMapping(path="/components") // Map ONLY POST Requests
     public @ResponseBody
     Component addNewItem (@Valid @RequestBody Component user) {
         // @ResponseBody means the returned String is the response, not a view name
@@ -63,11 +63,6 @@ public class ComponentController {
         // Pour être sûr
         componentDetails.setId(component.getId());
         return componentRepository.save(componentDetails);
-
-        /*component.setLibelle(componentDetails.getLibelle());
-        component.setQuantitystock(componentDetails.getQuantitystock());
-
-        return componentRepository.save(component);*/
     }
 
     // Delete a Component

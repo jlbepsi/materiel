@@ -51,7 +51,7 @@ public class Component {
         this.quantitystock = quantitystock;
     }
 
-    public int getQuantityUsed() {
+    public int getQuantityused() {
         return quantityused;
     }
 
