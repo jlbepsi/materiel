@@ -14,9 +14,9 @@ public class Portable {
   private long id;
 
   private String libelle;
-  private String libellecourt;
   private String description;
-  private String identifiant;
+  private String numserie;
+  private String mi;
   private String marque;
   private String couleur;
   private long screen;
@@ -48,11 +48,18 @@ public class Portable {
     this.libelle = libelle;
   }
 
-  public String getLibellecourt() {
-    return libellecourt;
+  public String getNumserie() {
+    return numserie;
   }
-  public void setLibellecourt(String libellecourt) {
-    this.libellecourt = libellecourt;
+  public void setNumserie(String numserie) {
+    this.numserie = numserie;
+  }
+
+  public String getMi() {
+    return mi;
+  }
+  public void setMi(String Mi) {
+    this.mi = mi;
   }
 
   public String getDescription() {
@@ -60,13 +67,6 @@ public class Portable {
   }
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public String getIdentifiant() {
-    return identifiant;
-  }
-  public void setIdentifiant(String identifiant) {
-    this.identifiant = identifiant;
   }
 
   public String getMarque() {
