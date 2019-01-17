@@ -2,7 +2,6 @@ package materiel.portable;
 
 import materiel.GenericResponse;
 import materiel.ResourceNotFoundException;
-import materiel.emprunt.User;
 import materiel.emprunt.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Calendar;
 import java.util.Optional;
 
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/api") // This means URL's start with /api (after Application path)
+@RequestMapping(path = "/api") // This means URL's start with /api (after Application path)
 /* CrossOrigin(origins = "http://localhost:3000")*/
 public class PortableController {
     @Autowired // This means to get the bean called portableRepository
@@ -26,38 +24,42 @@ public class PortableController {
 
 
     // Get all Portables
-    @GetMapping(path="/portables")
-    public @ResponseBody Iterable<Portable> getAllPortables() {
+    @GetMapping(path = "/portabletypes")
+    public @ResponseBody
+    Iterable<Portabletype> getAllPortables() {
         // This returns a JSON or XML with the portables
         return portableRepository.findAll();
     }
 
-    // Get a single Portable
-    @GetMapping("/portables/{id}")
-    public @ResponseBody Portable getPortableById(@PathVariable(value = "id") Long portableId) {
-        Optional<Portable> portable = portableRepository.findById(portableId);
+    // Get a single Portabletype
+    @GetMapping("/portabletypes/{id}")
+    public @ResponseBody
+    Portabletype getPortableById(@PathVariable(value = "id") int portableId) {
+        Optional<Portabletype> portable = portableRepository.findById(portableId);
         if (portable == null || portable.get() == null)
-            throw new ResourceNotFoundException("Portable", "id", portableId);
+            throw new ResourceNotFoundException("Portabletype", "id", portableId);
 
         return portable.get();
     }
 
-    // Add a new Portable
-    @PostMapping(path="/portables") // Map ONLY POST Requests
-    public @ResponseBody Portable addNewPortable (@Valid @RequestBody Portable portable) {
+    // Add a new Portabletype
+    @PostMapping(path = "/portabletypes") // Map ONLY POST Requests
+    public @ResponseBody
+    Portabletype addNewPortable(@Valid @RequestBody Portabletype portable) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
         return portableRepository.save(portable);
     }
 
-    // Update a Portable
-    @PutMapping("/portables/{id}")
-    public @ResponseBody Portable updatePortable(@PathVariable(value = "id") Long portableId,
-                                         @Valid @RequestBody Portable portableDetails) {
+    // Update a Portabletype
+    @PutMapping("/portabletypes/{id}")
+    public @ResponseBody
+    Portabletype updatePortable(@PathVariable(value = "id") int portableId,
+                                @Valid @RequestBody Portabletype portableDetails) {
 
-        Portable portable = portableRepository.findById(portableId)
-                .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
+        Portabletype portable = portableRepository.findById(portableId)
+                .orElseThrow(() -> new ResourceNotFoundException("Portabletype", "id", portableId));
 
         // Pour être sûr
         portableDetails.setId(portable.getId());
@@ -65,58 +67,15 @@ public class PortableController {
         return portableRepository.save(portableDetails);
     }
 
-    // Delete a Portable
-    @DeleteMapping(path = "/portables/{id}")
+    // Delete a Portabletype
+    @DeleteMapping(path = "/portabletypes/{id}")
     public @ResponseBody
-    ResponseEntity<?> deletePortable(@PathVariable(value = "id") Long portableId)
-    {
-        Portable portable = portableRepository.findById(portableId)
-                .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
+    ResponseEntity<?> deletePortable(@PathVariable(value = "id") int portableId) {
+        Portabletype portable = portableRepository.findById(portableId)
+                .orElseThrow(() -> new ResourceNotFoundException("Portabletype", "id", portableId));
 
         portableRepository.delete(portable);
 
         return ResponseEntity.ok().body(new GenericResponse(true, "Suppression effectuée"));
-    }
-
-    // Emprunter un Portable
-    @PutMapping("/portables/emprunter/{id}")
-    public @ResponseBody Portable emprunterPortable(@PathVariable(value = "id") Long portableId,
-                                                    @Valid @RequestBody Portable portableDetails) {
-
-        Portable portable = portableRepository.findById(portableId)
-                .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
-
-        portable.setDateEmprunt(Calendar.getInstance().getTime());
-
-        /*User emprunteur = userRepository.findById(portableDetails.getEmprunteur().getLogin())
-                .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
-        portable.setEmprunteur(emprunteur);*/
-        portable.setEmprunteur(portableDetails.getEmprunteur());
-
-        /*User validerPar = userRepository.findById(portableDetails.getValidePar().getLogin())
-                .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
-        portable.setValidePar(validerPar);*/
-
-        portable.setValidePar(portableDetails.getValidePar());
-
-        return portableRepository.save(portable);
-    }
-
-
-    // Rendre un Portable
-    @PutMapping("/portables/restituer/{id}")
-    public @ResponseBody Portable restituerPortable(@PathVariable(value = "id") Long portableId,
-                                                    @Valid @RequestBody Portable portableDetails) {
-
-        Portable portable = portableRepository.findById(portableId)
-                .orElseThrow(() -> new ResourceNotFoundException("Portable", "id", portableId));
-
-        portable.setDateEmprunt(null);
-        portable.setDateRetour(Calendar.getInstance().getTime());
-
-
-        portable.setRetourPar(portableDetails.getRetourPar());
-
-        return portableRepository.save(portable);
     }
 }

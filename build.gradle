@@ -49,5 +49,8 @@ dependencies {
             'io.jsonwebtoken:jjwt-jackson:0.10.2')
 
 
+    compile 'org.javassist:javassist:3.23.1-GA'
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.springframework.restdocs:spring-restdocs-mockmvc")
 }
