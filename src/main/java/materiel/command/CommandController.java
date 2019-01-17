@@ -30,7 +30,7 @@ public class CommandController {
     public @ResponseBody Command getCommandById(@PathVariable(value = "id") long id) {
         try {
             Optional<Command> command = commandRepository.findById(id);
-            if (command == null || command.get() == null)
+            if (command.get() == null)
                 throw new ResourceNotFoundException("Command", "id", id);
 
             return command.get();
@@ -65,8 +65,7 @@ public class CommandController {
     // Delete a Command
     @DeleteMapping(path = "/commands/{id}")
     public @ResponseBody
-    ResponseEntity<?> deleteCommand(@PathVariable(value = "id") long id)
-    {
+    ResponseEntity<?> deleteCommand(@PathVariable(value = "id") long id)  {
         Command cmdDetail = commandRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Command", "id", id));
 

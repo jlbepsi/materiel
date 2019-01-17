@@ -2,9 +2,9 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:3306
--- Généré le :  ven. 21 sep. 2018 à 10:55
--- Version du serveur :  5.7.23-0ubuntu0.18.04.1
+-- Hôte : 192.168.100.185
+-- Généré le :  mer. 16 jan. 2019 à 09:33
+-- Version du serveur :  10.1.26-MariaDB-0+deb9u1
 -- Version de PHP :  7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -64,8 +64,8 @@ CREATE TABLE `command` (
 --
 
 INSERT INTO `command` (`id`, `login`, `date`) VALUES
-(1, 'test.v2', '2018-06-08 14:35:10'),
-(2, 'test.v2', '2018-04-20 20:00:00');
+(1, 'test.v2', '2018-06-08 12:35:10'),
+(2, 'test.v2', '2018-04-20 18:00:00');
 
 -- --------------------------------------------------------
 
@@ -135,21 +135,21 @@ CREATE TABLE `computer` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createur` varchar(50) NOT NULL,
   `remarque` varchar(250) DEFAULT NULL,
-  `boitier` int(11),
+  `boitier` int(11) DEFAULT NULL,
   `cartemere` int(11) DEFAULT NULL,
-  `cpu` int(11),
-  `ram1` int(11),
-  `ram2` int(11),
-  `ram3` int(11),
-  `ram4` int(11),
-  `hdd1` int(11),
-  `hdd2` int(11),
-  `hdd3` int(11),
+  `cpu` int(11) DEFAULT NULL,
+  `ram1` int(11) DEFAULT NULL,
+  `ram2` int(11) DEFAULT NULL,
+  `ram3` int(11) DEFAULT NULL,
+  `ram4` int(11) DEFAULT NULL,
+  `hdd1` int(11) DEFAULT NULL,
+  `hdd2` int(11) DEFAULT NULL,
+  `hdd3` int(11) DEFAULT NULL,
   `hdd4` int(11) DEFAULT NULL,
-  `network_card1` int(11),
-  `network_card2` int(11),
-  `network_card3` int(11),
-  `graphic_card` int(11)
+  `network_card1` int(11) DEFAULT NULL,
+  `network_card2` int(11) DEFAULT NULL,
+  `network_card3` int(11) DEFAULT NULL,
+  `graphic_card` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -238,18 +238,6 @@ CREATE TRIGGER `deleteComponent` AFTER DELETE ON `computer` FOR EACH ROW BEGIN
         SET component.quantitystock = component.quantitystock +1,
             component.quantityused = component.quantityused -1
         WHERE component.id = OLD.hdd4;
-    END IF;
-    IF OLD.hdd5 IS NOT null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.hdd5;
-    END IF;
-    IF OLD.hdd6 IS NOT null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.hdd6;
     END IF;
 
     IF OLD.network_card1 IS NOT null THEN
@@ -356,19 +344,7 @@ CREATE TRIGGER `insertComponent` AFTER INSERT ON `computer` FOR EACH ROW BEGIN
             component.quantityused = component.quantityused +1
         WHERE component.id = NEW.hdd4;
     END IF;
-    IF NEW.hdd5 IS NOT null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.hdd5;
-    END IF;
-    IF NEW.hdd6 IS NOT null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.hdd6;
-    END IF;
-
+  
     IF NEW.network_card1 IS NOT null THEN
       UPDATE component
         SET component.quantitystock = component.quantitystock -1,
@@ -400,244 +376,244 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `updateComponent` BEFORE UPDATE ON `computer` FOR EACH ROW BEGIN
     -- Boitier
-  IF NOT (OLD.boitier <=>  NEW.boitier) THEN
-    IF OLD.boitier is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.boitier;
+    IF NOT (OLD.Boitier <=>  NEW.Boitier) THEN
+      IF OLD.Boitier is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.Boitier;
+      END IF;
+      IF NEW.Boitier is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.Boitier;
+      END IF;
     END IF;
-    IF NEW.boitier is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.boitier;
+  
+    -- cartemere
+    IF NOT (OLD.cartemere <=>  NEW.cartemere) THEN
+      IF OLD.cartemere is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.cartemere;
+      END IF;
+      IF NEW.cartemere is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.cartemere;
+      END IF;
     END IF;
-  END IF;
-
-  -- cartemere
-  IF NOT (OLD.cartemere <=>  NEW.cartemere) THEN
-    IF OLD.cartemere is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.cartemere;
+  
+      -- cpu
+    IF NOT (OLD.cpu <=>  NEW.cpu) THEN
+      IF OLD.cpu is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.cpu;
+      END IF;
+      IF NEW.cpu is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.cpu;
+      END IF;
     END IF;
-    IF NEW.cartemere is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.cartemere;
+  
+      -- ram1
+    IF NOT (OLD.ram1 <=>  NEW.ram1) THEN
+      IF OLD.ram1 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.ram1;
+      END IF;
+      IF NEW.ram1 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.ram1;
+      END IF;
     END IF;
-  END IF;
-
-    -- cpu
-  IF NOT (OLD.cpu <=>  NEW.cpu) THEN
-    IF OLD.cpu is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.cpu;
+  
+      -- ram2
+    IF NOT (OLD.ram2 <=>  NEW.ram2) THEN
+      IF OLD.ram2 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.ram2;
+      END IF;
+      IF NEW.ram2 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.ram2;
+      END IF;
     END IF;
-    IF NEW.cpu is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.cpu;
+  
+      -- ram3
+    IF NOT (OLD.ram3 <=>  NEW.ram3) THEN
+      IF OLD.ram3 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.ram3;
+      END IF;
+      IF NEW.ram3 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.ram3;
+      END IF;
     END IF;
-  END IF;
-
-    -- ram1
-  IF NOT (OLD.ram1 <=>  NEW.ram1) THEN
-    IF OLD.ram1 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.ram1;
+  
+      -- ram4
+    IF NOT (OLD.ram4 <=>  NEW.ram4) THEN
+      IF OLD.ram4 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.ram4;
+      END IF;
+      IF NEW.ram4 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.ram4;
+      END IF;
     END IF;
-    IF NEW.ram1 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.ram1;
+  
+      -- hdd1
+    IF NOT (OLD.hdd1 <=>  NEW.hdd1) THEN
+      IF OLD.hdd1 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.hdd1;
+      END IF;
+      IF NEW.hdd1 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.hdd1;
+      END IF;
     END IF;
-  END IF;
-
-    -- ram2
-  IF NOT (OLD.ram2 <=>  NEW.ram2) THEN
-    IF OLD.ram2 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.ram2;
+  
+      -- hdd2
+    IF NOT (OLD.hdd2 <=>  NEW.hdd2) THEN
+      IF OLD.hdd2 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.hdd2;
+      END IF;
+      IF NEW.hdd2 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.hdd2;
+      END IF;
     END IF;
-    IF NEW.ram2 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.ram2;
+  
+      -- hdd3
+    IF NOT (OLD.hdd3 <=>  NEW.hdd3) THEN
+      IF OLD.hdd3 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.hdd3;
+      END IF;
+      IF NEW.hdd3 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.hdd3;
+      END IF;
     END IF;
-  END IF;
-
-    -- ram3
-  IF NOT (OLD.ram3 <=>  NEW.ram3) THEN
-    IF OLD.ram3 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.ram3;
+  
+      -- hdd4
+    IF NOT (OLD.hdd4 <=>  NEW.hdd4) THEN
+      IF OLD.hdd4 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.hdd4;
+      END IF;
+      IF NEW.hdd4 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.hdd4;
+      END IF;
     END IF;
-    IF NEW.ram3 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.ram3;
+  
+      -- network_card1
+    IF NOT (OLD.network_card1 <=>  NEW.network_card1) THEN
+      IF OLD.network_card1 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.network_card1;
+      END IF;
+      IF NEW.network_card1 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.network_card1;
+      END IF;
     END IF;
-  END IF;
-
-    -- ram4
-  IF NOT (OLD.ram4 <=>  NEW.ram4) THEN
-    IF OLD.ram4 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.ram4;
+  
+      -- network_card2
+    IF NOT (OLD.network_card2 <=>  NEW.network_card2) THEN
+      IF OLD.network_card2 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.network_card2;
+      END IF;
+      IF NEW.network_card2 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.network_card2;
+      END IF;
     END IF;
-    IF NEW.ram4 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.ram4;
+  
+      -- network_card3
+    IF NOT (OLD.network_card3 <=>  NEW.network_card3) THEN
+      IF OLD.network_card3 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.network_card3;
+      END IF;
+      IF NEW.network_card3 is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.network_card3;
+      END IF;
     END IF;
-  END IF;
-
-    -- hdd1
-  IF NOT (OLD.hdd1 <=>  NEW.hdd1) THEN
-    IF OLD.hdd1 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.hdd1;
+  
+      -- graphic_card
+    IF NOT (OLD.graphic_card <=>  NEW.graphic_card) THEN
+      IF OLD.graphic_card is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock +1,
+              component.quantityused = component.quantityused -1
+          WHERE component.id = OLD.graphic_card;
+      END IF;
+      IF NEW.graphic_card is not null THEN
+        UPDATE component
+          SET component.quantitystock = component.quantitystock -1,
+              component.quantityused = component.quantityused +1
+          WHERE component.id = NEW.graphic_card;
+      END IF;
     END IF;
-    IF NEW.hdd1 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.hdd1;
-    END IF;
-  END IF;
-
-    -- hdd2
-  IF NOT (OLD.hdd2 <=>  NEW.hdd2) THEN
-    IF OLD.hdd2 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.hdd2;
-    END IF;
-    IF NEW.hdd2 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.hdd2;
-    END IF;
-  END IF;
-
-    -- hdd3
-  IF NOT (OLD.hdd3 <=>  NEW.hdd3) THEN
-    IF OLD.hdd3 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.hdd3;
-    END IF;
-    IF NEW.hdd3 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.hdd3;
-    END IF;
-  END IF;
-
-    -- hdd4
-  IF NOT (OLD.hdd4 <=>  NEW.hdd4) THEN
-    IF OLD.hdd4 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.hdd4;
-    END IF;
-    IF NEW.hdd4 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.hdd4;
-    END IF;
-  END IF;
-
-    -- network_card1
-  IF NOT (OLD.network_card1 <=>  NEW.network_card1) THEN
-    IF OLD.network_card1 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.network_card1;
-    END IF;
-    IF NEW.network_card1 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.network_card1;
-    END IF;
-  END IF;
-
-    -- network_card2
-  IF NOT (OLD.network_card2 <=>  NEW.network_card2) THEN
-    IF OLD.network_card2 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.network_card2;
-    END IF;
-    IF NEW.network_card2 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.network_card2;
-    END IF;
-  END IF;
-
-    -- network_card3
-  IF NOT (OLD.network_card3 <=>  NEW.network_card3) THEN
-    IF OLD.network_card3 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.network_card3;
-    END IF;
-    IF NEW.network_card3 is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.network_card3;
-    END IF;
-  END IF;
-
-    -- graphic_card
-  IF NOT (OLD.graphic_card <=>  NEW.graphic_card) THEN
-    IF OLD.graphic_card is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock +1,
-            component.quantityused = component.quantityused -1
-        WHERE component.id = OLD.graphic_card;
-    END IF;
-    IF NEW.graphic_card is not null THEN
-      UPDATE component
-        SET component.quantitystock = component.quantitystock -1,
-            component.quantityused = component.quantityused +1
-        WHERE component.id = NEW.graphic_card;
-    END IF;
-  END IF;
 
 
 END
@@ -653,9 +629,10 @@ DELIMITER ;
 CREATE TABLE `portable` (
   `id` int(11) NOT NULL,
   `libelle` varchar(100) NOT NULL,
-  `libellecourt` varchar(30) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
-  `identifiant` varchar(30) DEFAULT NULL,
+  `emplacement` varchar(150) DEFAULT NULL,
+  `mi` varchar(10) NOT NULL DEFAULT '0',
+  `numserie` varchar(30) DEFAULT NULL,
   `marque` varchar(100) NOT NULL,
   `couleur` varchar(50) DEFAULT NULL,
   `screen` int(11) NOT NULL,
@@ -675,18 +652,18 @@ CREATE TABLE `portable` (
 -- Déchargement des données de la table `portable`
 --
 
-INSERT INTO `portable` (`id`, `libelle`, `libellecourt`, `description`, `identifiant`, `marque`, `couleur`, `screen`, `cpu`, `memory`, `hdd1`, `hdd2`, `cdrom`, `user_login`, `date_emprunt`, `date_retour`, `valider_par`, `retour_par`) VALUES
-(1, 'ASUS K750L test', 'ASUS K750L', 'ASUS K750L 17 pouces', 'ASUS-1', 'ASUS', 'Gris', 17, 'Intel Core i7', 8, 1536, 0, 1, 'test.v5', NULL, '2018-09-13 15:35:17', 'admin.extranet', 'admin.extranet'),
-(2, 'ASUS P2520LA-XO0456T', 'ASUS P2520LA-XO0456T', 'ASUS P2520LA-XO0456T', 'ASUS-2', 'ASUS', '', 15, 'Intel Core i3', 4, 1024, 0, 1, 'test.v3', '2018-09-10 10:54:22', NULL, 'admin.extranet', NULL),
-(3, 'MSI CX62', 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI-3', 'MSI', '', 13, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(4, 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI-4', 'MSI', '', 15, 'Intel Core i3', 4, 512, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(5, 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI-5', 'MSI', '', 15, 'Intel Core i3', 4, 600, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(6, 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI-6', 'MSI', '', 15, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(7, 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI-7', 'MSI', '', 15, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(9, 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI CX62 7QL-024FR', 'MSI-9', 'MSI', '', 15, 'Intel Core i3', 4, 320, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(11, 'MSI CX62 7QL-024FR', 'MSI CX62', '', 'MSI-11', 'MSI', NULL, 15, 'Intel Core i3', 4, 512, 0, 0, NULL, NULL, NULL, NULL, NULL),
-(12, 'MSI CX62 7QL-024FR', 'MSI CX62', '', 'MSI-11', 'MSI', NULL, 15, 'Intel Core i3', 4, 512, 0, 0, NULL, NULL, NULL, NULL, NULL),
-(13, 'MSI CX62 7QL-024FR', 'MSI CX62', '', 'MSI-0', 'MSI', NULL, 15, 'Intel Core i3', 4, 1024, 0, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `portable` (`id`, `libelle`, `description`, `emplacement`, `mi`, `numserie`, `marque`, `couleur`, `screen`, `cpu`, `memory`, `hdd1`, `hdd2`, `cdrom`, `user_login`, `date_emprunt`, `date_retour`, `valider_par`, `retour_par`) VALUES
+(1, 'ASUS K750L', '', NULL, '401', 'ABC101', 'ASUS', 'Gris', 17, 'Intel Core i7', 8, 1536, 0, 1, 'test.v5', NULL, '2018-09-13 15:35:17', 'admin.extranet', 'admin.extranet'),
+(2, 'ASUS P2520LA', '', NULL, '402', 'ABC102', 'ASUS', '', 15, 'Intel Core i3', 4, 1024, 0, 1, 'test.v3', '2018-09-10 10:54:22', NULL, 'admin.extranet', NULL),
+(3, 'MSI CX62', '', NULL, '403', 'ABC103', 'MSI', 'Blanc', 13, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
+(4, 'MSI CX62', '', NULL, '404', 'ABC104', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 512, 0, 1, NULL, NULL, NULL, NULL, NULL),
+(5, 'MSI CX62', '', NULL, '405', 'ABC105', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 600, 0, 1, NULL, NULL, NULL, NULL, NULL),
+(6, 'MSI CX62', '', NULL, '406', 'ABC106', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
+(7, 'MSI CX62', '', NULL, '407', 'ABC107', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
+(9, 'MSI CX62', '', NULL, '409', 'ABC109', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 320, 0, 1, NULL, NULL, NULL, NULL, NULL),
+(11, 'MSI CX62', '', NULL, '411', 'ABC111', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 512, 0, 0, NULL, NULL, NULL, NULL, NULL),
+(12, 'MSI CX62', '', NULL, '412', 'ABC112', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 512, 0, 0, NULL, NULL, NULL, NULL, NULL),
+(13, 'MSI CX62', '', NULL, '413', 'ABC113', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 1024, 0, 0, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
