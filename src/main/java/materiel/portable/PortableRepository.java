@@ -3,15 +3,12 @@ package materiel.portable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Date;
 import java.util.List;
 
-public interface PortableRepository extends CrudRepository<Portable, Long> {
+public interface PortableRepository extends CrudRepository<Portabletype, Integer> {
 
-    // Obtient les ordinateurs portables d'après le login de l'utilisateur
-    @Query("select portable from Portable portable where portable.emprunteur.login = ?1")
-    List<Portable> findAllByUserLogin(String place);
-
-    // Obtient les ordinateurs portables d'après le login de l'utilisateur
-    @Query("select portable from Portable portable where portable.emprunteur.nom like %?1%")
-    List<Portable> findAllByUserName(String place);
+    // Obtient les ordinateurs portables emruntable à une date donnée
+    @Query("select p from Portableemprunt p where p.identity.datedebut = ?1")
+    List<Portabletype> findAllFreeByDatedebut(Date datedebut);
 }
