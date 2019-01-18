@@ -9,7 +9,7 @@ public class Portable {
   private int mi;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "portabletype_id") private Portabletype portable;
+  @JoinColumn(name = "portabletype_id") private Portabletype portabletype;
 
   private String emplacement;
   private String numserie;
@@ -23,12 +23,12 @@ public class Portable {
     this.mi = mi;
   }
 
-  public Portabletype getPortable() {
-    return portable;
+  public Portabletype getPortabletype() {
+    return portabletype;
   }
 
-  public void setPortable(Portabletype portable) {
-    this.portable = portable;
+  public void setPortabletype(Portabletype portable) {
+    this.portabletype = portable;
   }
 
   public String getNumserie() {

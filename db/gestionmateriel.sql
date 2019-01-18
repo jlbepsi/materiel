@@ -2,9 +2,9 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 192.168.100.185
--- Généré le :  mer. 16 jan. 2019 à 09:33
--- Version du serveur :  10.1.26-MariaDB-0+deb9u1
+-- Hôte : localhost:3306
+-- Généré le :  ven. 18 jan. 2019 à 13:34
+-- Version du serveur :  5.7.24-0ubuntu0.18.04.1
 -- Version de PHP :  7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -64,8 +64,8 @@ CREATE TABLE `command` (
 --
 
 INSERT INTO `command` (`id`, `login`, `date`) VALUES
-(1, 'test.v2', '2018-06-08 12:35:10'),
-(2, 'test.v2', '2018-04-20 18:00:00');
+(1, 'test.v2', '2018-06-08 14:35:10'),
+(2, 'test.v2', '2018-04-20 20:00:00');
 
 -- --------------------------------------------------------
 
@@ -135,21 +135,21 @@ CREATE TABLE `computer` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createur` varchar(50) NOT NULL,
   `remarque` varchar(250) DEFAULT NULL,
-  `boitier` int(11) DEFAULT NULL,
+  `boitier` int(11),
   `cartemere` int(11) DEFAULT NULL,
-  `cpu` int(11) DEFAULT NULL,
-  `ram1` int(11) DEFAULT NULL,
-  `ram2` int(11) DEFAULT NULL,
-  `ram3` int(11) DEFAULT NULL,
-  `ram4` int(11) DEFAULT NULL,
-  `hdd1` int(11) DEFAULT NULL,
-  `hdd2` int(11) DEFAULT NULL,
-  `hdd3` int(11) DEFAULT NULL,
+  `cpu` int(11),
+  `ram1` int(11),
+  `ram2` int(11),
+  `ram3` int(11),
+  `ram4` int(11),
+  `hdd1` int(11),
+  `hdd2` int(11),
+  `hdd3` int(11),
   `hdd4` int(11) DEFAULT NULL,
-  `network_card1` int(11) DEFAULT NULL,
-  `network_card2` int(11) DEFAULT NULL,
-  `network_card3` int(11) DEFAULT NULL,
-  `graphic_card` int(11) DEFAULT NULL
+  `network_card1` int(11),
+  `network_card2` int(11),
+  `network_card3` int(11),
+  `graphic_card` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -238,6 +238,18 @@ CREATE TRIGGER `deleteComponent` AFTER DELETE ON `computer` FOR EACH ROW BEGIN
         SET component.quantitystock = component.quantitystock +1,
             component.quantityused = component.quantityused -1
         WHERE component.id = OLD.hdd4;
+    END IF;
+    IF OLD.hdd5 IS NOT null THEN
+      UPDATE component
+        SET component.quantitystock = component.quantitystock +1,
+            component.quantityused = component.quantityused -1
+        WHERE component.id = OLD.hdd5;
+    END IF;
+    IF OLD.hdd6 IS NOT null THEN
+      UPDATE component
+        SET component.quantitystock = component.quantitystock +1,
+            component.quantityused = component.quantityused -1
+        WHERE component.id = OLD.hdd6;
     END IF;
 
     IF OLD.network_card1 IS NOT null THEN
@@ -344,7 +356,19 @@ CREATE TRIGGER `insertComponent` AFTER INSERT ON `computer` FOR EACH ROW BEGIN
             component.quantityused = component.quantityused +1
         WHERE component.id = NEW.hdd4;
     END IF;
-  
+    IF NEW.hdd5 IS NOT null THEN
+      UPDATE component
+        SET component.quantitystock = component.quantitystock -1,
+            component.quantityused = component.quantityused +1
+        WHERE component.id = NEW.hdd5;
+    END IF;
+    IF NEW.hdd6 IS NOT null THEN
+      UPDATE component
+        SET component.quantitystock = component.quantitystock -1,
+            component.quantityused = component.quantityused +1
+        WHERE component.id = NEW.hdd6;
+    END IF;
+
     IF NEW.network_card1 IS NOT null THEN
       UPDATE component
         SET component.quantitystock = component.quantitystock -1,
@@ -627,43 +651,71 @@ DELIMITER ;
 --
 
 CREATE TABLE `portable` (
-  `id` int(11) NOT NULL,
-  `libelle` varchar(100) NOT NULL,
-  `description` varchar(200) DEFAULT NULL,
-  `emplacement` varchar(150) DEFAULT NULL,
-  `mi` varchar(10) NOT NULL DEFAULT '0',
-  `numserie` varchar(30) DEFAULT NULL,
-  `marque` varchar(100) NOT NULL,
-  `couleur` varchar(50) DEFAULT NULL,
-  `screen` int(11) NOT NULL,
-  `cpu` varchar(50) NOT NULL,
-  `memory` int(11) NOT NULL,
-  `hdd1` int(11) NOT NULL,
-  `hdd2` int(11) DEFAULT '0',
-  `cdrom` int(11) DEFAULT '1',
-  `user_login` varchar(50) DEFAULT NULL,
-  `date_emprunt` datetime DEFAULT NULL,
-  `date_retour` datetime DEFAULT NULL,
-  `valider_par` varchar(50) DEFAULT NULL,
-  `retour_par` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `mi` int(11) NOT NULL,
+  `portabletype_id` int(11) NOT NULL,
+  `emplacement` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `numserie` varchar(50) CHARACTER SET latin1 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `portable`
 --
 
-INSERT INTO `portable` (`id`, `libelle`, `description`, `emplacement`, `mi`, `numserie`, `marque`, `couleur`, `screen`, `cpu`, `memory`, `hdd1`, `hdd2`, `cdrom`, `user_login`, `date_emprunt`, `date_retour`, `valider_par`, `retour_par`) VALUES
-(1, 'ASUS K750L', '', NULL, '401', 'ABC101', 'ASUS', 'Gris', 17, 'Intel Core i7', 8, 1536, 0, 1, 'test.v5', NULL, '2018-09-13 15:35:17', 'admin.extranet', 'admin.extranet'),
-(2, 'ASUS P2520LA', '', NULL, '402', 'ABC102', 'ASUS', '', 15, 'Intel Core i3', 4, 1024, 0, 1, 'test.v3', '2018-09-10 10:54:22', NULL, 'admin.extranet', NULL),
-(3, 'MSI CX62', '', NULL, '403', 'ABC103', 'MSI', 'Blanc', 13, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(4, 'MSI CX62', '', NULL, '404', 'ABC104', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 512, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(5, 'MSI CX62', '', NULL, '405', 'ABC105', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 600, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(6, 'MSI CX62', '', NULL, '406', 'ABC106', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(7, 'MSI CX62', '', NULL, '407', 'ABC107', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 750, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(9, 'MSI CX62', '', NULL, '409', 'ABC109', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 320, 0, 1, NULL, NULL, NULL, NULL, NULL),
-(11, 'MSI CX62', '', NULL, '411', 'ABC111', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 512, 0, 0, NULL, NULL, NULL, NULL, NULL),
-(12, 'MSI CX62', '', NULL, '412', 'ABC112', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 512, 0, 0, NULL, NULL, NULL, NULL, NULL),
-(13, 'MSI CX62', '', NULL, '413', 'ABC113', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, 1024, 0, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `portable` (`mi`, `portabletype_id`, `emplacement`, `numserie`) VALUES
+(404, 1, 'AP', '123456'),
+(405, 2, 'AP', '123457'),
+(406, 2, 'CV', '123458');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `portableemprunt`
+--
+
+CREATE TABLE `portableemprunt` (
+  `portable_mi` int(11) NOT NULL,
+  `user_login` varchar(50) NOT NULL,
+  `datedebut` date NOT NULL,
+  `datefin` date NOT NULL,
+  `etat` int(11) NOT NULL,
+  `validerpar` varchar(50) DEFAULT NULL,
+  `retourpar` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `portableemprunt`
+--
+
+INSERT INTO `portableemprunt` (`portable_mi`, `user_login`, `datedebut`, `datefin`, `etat`, `validerpar`, `retourpar`) VALUES
+(404, 'test.v3', '2019-01-21', '2019-01-21', 2, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `portabletype`
+--
+
+CREATE TABLE `portabletype` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(100) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
+  `marque` varchar(50) DEFAULT NULL,
+  `couleur` varchar(15) DEFAULT NULL,
+  `ecran` int(11) NOT NULL,
+  `cpu` varchar(50) DEFAULT NULL,
+  `memoire` int(11) NOT NULL,
+  `disque` varchar(100) DEFAULT NULL,
+  `quantite` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `portabletype`
+--
+
+INSERT INTO `portabletype` (`id`, `libelle`, `description`, `marque`, `couleur`, `ecran`, `cpu`, `memoire`, `disque`, `quantite`) VALUES
+(1, 'ASUS K750L', '', 'ASUS', 'Gris', 17, 'Intel Core i7', 8, 'SSD 512 Go', 1),
+(2, 'ASUS P2520LA', '', 'ASUS', '', 15, 'Intel Core i3', 4, 'HDD 1 To', 0),
+(3, 'MSI CX62', '', 'MSI', 'Blanc', 15, 'Intel Core i3', 4, '1 To', 15);
 
 -- --------------------------------------------------------
 
@@ -757,6 +809,21 @@ ALTER TABLE `computer`
 -- Index pour la table `portable`
 --
 ALTER TABLE `portable`
+  ADD PRIMARY KEY (`mi`),
+  ADD KEY `portable_id` (`portabletype_id`);
+
+--
+-- Index pour la table `portableemprunt`
+--
+ALTER TABLE `portableemprunt`
+  ADD PRIMARY KEY (`portable_mi`,`user_login`,`datedebut`),
+  ADD KEY `user_login` (`user_login`),
+  ADD KEY `portable_mi` (`portable_mi`);
+
+--
+-- Index pour la table `portabletype`
+--
+ALTER TABLE `portabletype`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -796,10 +863,10 @@ ALTER TABLE `computer`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT pour la table `portable`
+-- AUTO_INCREMENT pour la table `portabletype`
 --
-ALTER TABLE `portable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+ALTER TABLE `portabletype`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `subcategory`
@@ -829,6 +896,19 @@ ALTER TABLE `component`
 --
 ALTER TABLE `computer`
   ADD CONSTRAINT `computer_ibfk_1` FOREIGN KEY (`createur`) REFERENCES `user` (`login`);
+
+--
+-- Contraintes pour la table `portable`
+--
+ALTER TABLE `portable`
+  ADD CONSTRAINT `portable_ibfk_1` FOREIGN KEY (`portabletype_id`) REFERENCES `portabletype` (`id`);
+
+--
+-- Contraintes pour la table `portableemprunt`
+--
+ALTER TABLE `portableemprunt`
+  ADD CONSTRAINT `portableemprunt_ibfk_2` FOREIGN KEY (`user_login`) REFERENCES `user` (`login`),
+  ADD CONSTRAINT `portableemprunt_ibfk_3` FOREIGN KEY (`portable_mi`) REFERENCES `portable` (`mi`);
 
 --
 -- Contraintes pour la table `subcategory`
