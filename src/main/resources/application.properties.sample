@@ -5,4 +5,4 @@ spring.datasource.username=<utilisateur>
 spring.datasource.password=<mot de passe>
 
 
-jwt.token.secret=<le secret utilisé par ws-usermanagement>
+jwt.token.public_key=keys/public_key.der
